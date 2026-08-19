@@ -16,7 +16,7 @@ A comprehensive, enterprise-grade Python security monitoring system that transfo
 ### 🔐 **Multi-Layered Security Intelligence**
 * 🤫 **Stealth Operation**: Runs completely invisible using `pythonw.exe` - no windows, console, or system tray icons
 * 📸 **Smart Webcam Capture**: Automatically detects and captures from available cameras with optimized initialization timing
-* � **Hybrid Geolocation System**: 
+* 🌍 **Hybrid Geolocation System**: 
   * **Primary**: Native Windows Location Service for GPS-level accuracy (±3-10 meters)
   * **Fallback**: Multi-API IP geolocation with 1-second timeout optimization
   * **APIs**: ipapi.co and ip-api.com with intelligent failover
@@ -70,6 +70,7 @@ A comprehensive, enterprise-grade Python security monitoring system that transfo
   * **Location Services enabled** in Windows Settings (critical for GPS accuracy)
   * Administrator privileges for Task Scheduler automation
   * Windows SDK access for native location services
+* **Git**: Required to clone the repository ([download here](https://git-scm.com/download/win) if not already installed)
 
 ### 📦 **Python Dependencies**
 * **`opencv-python`**: Advanced computer vision for webcam capture and image processing
@@ -77,6 +78,8 @@ A comprehensive, enterprise-grade Python security monitoring system that transfo
 * **`psutil`**: Cross-platform system and process monitoring utilities
 * **`winsdk`**: Native Windows SDK integration for Location Services and system APIs
 * **Built-in modules**: `smtplib`, `email`, `configparser`, `logging`, `asyncio`, `socket`, `json`
+
+All of the above are pinned in `requirements.txt` in the repository root.
 
 ### 🌐 **Network & Service Dependencies**
 * **SMTP Access**: Gmail SMTP servers (smtp.gmail.com:587) with TLS encryption
@@ -99,17 +102,25 @@ A comprehensive, enterprise-grade Python security monitoring system that transfo
 ### 1️⃣ **Prepare Your System**
 
 1. **Install Python**: If you don't have it, download Python from [python.org](https://www.python.org/downloads/windows/). **Important**: During installation, make sure to check the box that says "✅ Add Python to PATH".
-2. **Enable Location Services**: This is crucial for precise location tracking.
+2. **Install Git** (if not already installed): Download from [git-scm.com](https://git-scm.com/download/win) and complete the installation with default options.
+3. **Enable Location Services**: This is crucial for precise location tracking.
    * Go to **Settings > Privacy & security > Location**.
    * Ensure **Location services** is turned **On**.
 
-### 2️⃣ **Download the Project & Install Libraries**
+### 2️⃣ **Clone the Repository & Install Libraries**
 
-1. **Download Files**: Place the `monitor.py`, `config.ini`, and `requirements.txt` files into a folder (e.g., `C:\LoginMonitor`).
-2. **Install Libraries**: Open a Command Prompt, navigate to your folder, and run:
+1. **Clone the repository**: Open Command Prompt or PowerShell and run:
 
 ```bash
-cd C:\LoginMonitor
+git clone https://github.com/Ns81000/webcam-login-monitor_v2.1_Enhanced.git
+cd webcam-login-monitor_v2.1_Enhanced
+```
+
+> 💡 **No Git?** You can alternatively download the ZIP from the repository's **Code > Download ZIP** button on GitHub and extract it to a folder such as `C:\LoginMonitor`.
+
+2. **Install Libraries**: From inside the cloned folder, run:
+
+```bash
 pip install -r requirements.txt
 ```
 
@@ -123,7 +134,7 @@ pip install -r requirements.txt
    * Copy the 16-character password (this will be used only once)
 
 2. **Secure Configuration Setup**:
-   * Open `config.ini` with a secure text editor
+   * Open `config.ini` (in the cloned repository folder) with a secure text editor
    * Never share this file - it contains sensitive credentials
    * Consider encrypting the folder if on a shared computer
 
@@ -166,14 +177,25 @@ Set the script to run automatically and silently at every login.
 5. **Action**: Select **Start a program**.
 6. **Program/script**: Find `pythonw.exe`. (This runs the script without a black console window).
    * *Tip: In Command Prompt, type `where pythonw` to find the full path.*
-7. **Add arguments**: Enter the full path to your script (e.g., `"C:\LoginMonitor\monitor.py"`).
-8. **Start in**: Enter the path to your folder (e.g., `"C:\LoginMonitor"`). This is critical!
+7. **Add arguments**: Enter the full path to your script, matching where you cloned the repository (e.g., `"C:\LoginMonitor\webcam-login-monitor_v2.1_Enhanced\monitor.py"`).
+8. **Start in**: Enter the path to the cloned repository folder (e.g., `"C:\LoginMonitor\webcam-login-monitor_v2.1_Enhanced"`). This is critical!
 9. Click **Finish**.
 10. **Final Polish**:
     * Find the task in the main library, right-click it, and select **Properties**.
     * Check ✅ **Run with highest privileges**.
     * Go to the **Conditions** tab and uncheck "Start the task only if the computer is on AC power".
     * Click **OK**.
+
+### 5️⃣ **Testing Your Setup (Optional)**
+
+To confirm everything is wired up correctly before relying on Task Scheduler:
+
+```bash
+cd C:\LoginMonitor\webcam-login-monitor_v2.1_Enhanced
+python monitor.py
+```
+
+Check your inbox for the HTML security report. If it arrives, your Task Scheduler entry will work identically at login.
 
 -----
 
@@ -184,10 +206,10 @@ Check the comprehensive `monitor.log` file in your project folder for detailed d
 
 ```powershell
 # View recent log entries
-Get-Content "C:\LoginMonitor\monitor.log" -Tail 20
+Get-Content "C:\LoginMonitor\webcam-login-monitor_v2.1_Enhanced\monitor.log" -Tail 20
 
 # Search for specific errors
-Select-String -Path "C:\LoginMonitor\monitor.log" -Pattern "ERROR|WARNING"
+Select-String -Path "C:\LoginMonitor\webcam-login-monitor_v2.1_Enhanced\monitor.log" -Pattern "ERROR|WARNING"
 ```
 
 ### 🌍 **Geolocation Issues**
@@ -278,7 +300,7 @@ Subject = Custom Alert: Login on  # Custom email subject
 **Manual Testing**:
 ```powershell
 # Test script manually
-cd "C:\LoginMonitor"
+cd "C:\LoginMonitor\webcam-login-monitor_v2.1_Enhanced"
 python monitor.py
 
 # Test with Python debug mode
@@ -304,6 +326,7 @@ pythonw monitor.py
 | `requests.ConnectionError` | Network issue | Check internet & firewall settings |
 | `PermissionError` | File access denied | Run as administrator or check permissions |
 | `ConfigParser.NoSectionError` | Invalid config.ini | Verify config file format and sections |
+| `fatal: repository not found` | Wrong clone URL or no internet | Verify `https://github.com/Ns81000/webcam-login-monitor_v2.1_Enhanced.git` and your connection |
 
 -----
 
@@ -408,7 +431,7 @@ pythonw monitor.py
 * **Corporate Use**: For enterprise deployment, ensure compliance with corporate security policies and data protection requirements.
 * **Consent**: When monitoring shared computers, ensure all users are informed and have provided appropriate consent.
 
-## � Advanced Configuration Options
+## 🔧 Advanced Configuration Options
 
 ### 📝 **Custom Configuration Parameters**
 
@@ -452,10 +475,25 @@ SmtpPort = 587  # or 25 for internal servers
 * Implement log rotation for long-term deployments
 * Use encrypted file systems for sensitive configuration
 
+## 🔄 Updating & Removing the Monitor
+
+**Update to the latest version**:
+```bash
+cd C:\LoginMonitor\webcam-login-monitor_v2.1_Enhanced
+git pull origin main
+pip install -r requirements.txt --upgrade
+```
+
+**Disable or remove monitoring**:
+1. Open Task Scheduler (`taskschd.msc`)
+2. Find your "Advanced Login Monitor" task
+3. Right-click and select **Disable** or **Delete**
+4. Optionally delete the cloned repository folder
+
 ## 📞 Support & Development
 
 ### 🛠️ **Technical Support**
-* **Issue Reporting**: Create detailed issues in the GitHub repository
+* **Issue Reporting**: Create detailed issues in the [GitHub repository](https://github.com/Ns81000/webcam-login-monitor_v2.1_Enhanced/issues)
 * **Log Files**: Always include relevant `monitor.log` entries when reporting issues
 * **System Info**: Provide Windows version, Python version, and hardware details
 * **Configuration**: Share configuration (with sensitive data redacted) when relevant
